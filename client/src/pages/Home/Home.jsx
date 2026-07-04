@@ -4,6 +4,10 @@ import FeaturedCourses from "../../components/home/FeaturedCourses";
 import Categories from "../../components/home/Categories";
 import Footer from "../../components/layout/Footer";
 import WhyChooseUs from "../../components/home/WhyChooseUs";
+import Testimonials from "../../components/home/Testimonials";
+
+
+
 function Home() {
   return (
     <>
@@ -13,6 +17,8 @@ function Home() {
       <Categories />
       <Footer />
       <WhyChooseUs />
+      <Testimonials />
+
     </>
   );
 }
