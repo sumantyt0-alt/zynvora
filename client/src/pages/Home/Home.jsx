@@ -15,11 +15,11 @@ function Home() {
       <Navbar />
       <Hero />
       <FeaturedCourses />
-      <Categories />
-      <Footer />
       <WhyChooseUs />
       <Testimonials />
+      <Categories />
       <Newsletter />
+      <Footer />
     </>
   );
 }

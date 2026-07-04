@@ -1,70 +1,69 @@
-import { FaStar } from "react-icons/fa";
-
 function Testimonials() {
-  const reviews = [
+  const testimonials = [
     {
       name: "Rahul Sharma",
-      course: "MERN Stack",
+      role: "MERN Developer",
       review:
-        "This platform completely changed my coding journey. The projects are amazing.",
+        "SkillForge helped me get my first developer job. The projects were amazing!",
+      image: "https://i.pravatar.cc/150?img=11",
     },
     {
       name: "Priya Singh",
-      course: "Artificial Intelligence",
+      role: "Python Developer",
       review:
-        "Very easy to understand. The mentors explain everything clearly.",
+        "The instructors explained every concept clearly. Highly recommended!",
+      image: "https://i.pravatar.cc/150?img=5",
     },
     {
-      name: "Aman Kumar",
-      course: "Python Programming",
+      name: "Aman Verma",
+      role: "AI Engineer",
       review:
-        "One of the best learning platforms. Highly recommended for beginners.",
+        "Excellent platform for learning AI and Machine Learning with hands-on practice.",
+      image: "https://i.pravatar.cc/150?img=8",
     },
   ];
 
   return (
-    <section className="py-20 bg-slate-100">
+    <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-6">
 
         <h2 className="text-4xl font-bold text-center">
           What Our Students Say
         </h2>
 
-        <p className="text-center text-gray-500 mt-3">
+        <p className="text-center text-gray-500 mt-4">
           Thousands of students trust SkillForge.
         </p>
 
-        <div className="grid md:grid-cols-3 gap-8 mt-14">
-
-          {reviews.map((review, index) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-14">
+          {testimonials.map((item, index) => (
             <div
               key={index}
-              className="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition"
+              className="bg-gray-50 rounded-2xl p-8 shadow hover:shadow-xl transition"
             >
-              <div className="flex text-yellow-500 mb-4">
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
-              </div>
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-20 h-20 rounded-full mx-auto"
+              />
 
-              <p className="text-gray-600 italic">
-                "{review.review}"
+              <h3 className="mt-5 text-xl font-bold text-center">
+                {item.name}
+              </h3>
+
+              <p className="text-blue-600 text-center">
+                {item.role}
               </p>
 
-              <div className="mt-6">
-                <h3 className="font-bold text-lg">
-                  {review.name}
-                </h3>
+              <p className="text-gray-600 mt-5 text-center italic">
+                "{item.review}"
+              </p>
 
-                <p className="text-gray-500">
-                  {review.course}
-                </p>
+              <div className="text-yellow-400 text-center mt-4 text-xl">
+                ⭐⭐⭐⭐⭐
               </div>
             </div>
           ))}
-
         </div>
 
       </div>
