@@ -1,6 +1,6 @@
 function Hero() {
   return (
-    <section className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white">
+    <section className="bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600 text-white">
       <div className="max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-12 items-center">
 
         {/* Left */}
