@@ -5,6 +5,7 @@ import Categories from "../../components/home/Categories";
 import Footer from "../../components/layout/Footer";
 import WhyChooseUs from "../../components/home/WhyChooseUs";
 import Testimonials from "../../components/home/Testimonials";
+import Newsletter from "../../components/home/Newsletter";
 
 
 
@@ -18,7 +19,7 @@ function Home() {
       <Footer />
       <WhyChooseUs />
       <Testimonials />
-
+      <Newsletter />
     </>
   );
 }
