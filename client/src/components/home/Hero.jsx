@@ -1,3 +1,4 @@
+import heroData from "../../data/heroData";
 function Hero() {
   return (
     <section className="bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600 text-white">
@@ -8,18 +9,15 @@ function Hero() {
         <div>
 
           <span className="bg-white/20 px-4 py-2 rounded-full text-sm">
-            🚀 India's Trusted Learning Platform
+            {heroData.badge}
           </span>
 
           <h1 className="text-6xl font-extrabold leading-tight mt-8">
-            Learn
-            <br />
-            Future-Ready Skills
+            {heroData.title}
           </h1>
 
           <p className="mt-6 text-lg text-blue-100">
-            Master MERN Stack, AI, Python, Cloud Computing and become
-            job-ready with real-world projects.
+            {heroData.description}
           </p>
 
           <div className="flex gap-4 mt-8 flex-wrap">
@@ -34,23 +32,16 @@ function Hero() {
 
           </div>
 
-          <div className="flex gap-10 mt-12 flex-wrap">
+            <div className="flex gap-10 mt-12 flex-wrap">
+              {heroData.stats.map((item) => (
+                <div key={item.label}>
+                  <h2 className="text-4xl font-bold">
+                    {item.number}
+                  </h2>
 
-            <div>
-              <h2 className="text-4xl font-bold">10K+</h2>
-              <p>Students</p>
-            </div>
-
-            <div>
-              <h2 className="text-4xl font-bold">120+</h2>
-              <p>Courses</p>
-            </div>
-
-            <div>
-              <h2 className="text-4xl font-bold">4.9★</h2>
-              <p>Rating</p>
-            </div>
-
+                  <p>{item.label}</p>
+                </div>
+            ))}
           </div>
 
         </div>
