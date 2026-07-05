@@ -9,7 +9,7 @@ function Footer() {
         </p>
 
         <p className="mt-6 text-sm text-gray-500">
-          © 2026 Learn AI. All rights reserved.
+          © 2026 Zynvora. All rights reserved.
         </p>
       </div>
     </footer>

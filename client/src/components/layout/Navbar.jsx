@@ -22,16 +22,16 @@ function Navbar() {
           className="flex items-center gap-3"
         >
           <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg">
-            SF
+            ZY
           </div>
 
           <div>
             <h1 className="text-xl font-bold leading-none text-gray-900">
-              SkillForge
+              Zynvora
             </h1>
 
             <p className="text-xs text-gray-500">
-              Learn. Build. Grow.
+              Learn. Build. Innovate.
             </p>
           </div>
         </Link>
