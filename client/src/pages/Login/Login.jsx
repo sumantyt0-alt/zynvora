@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 function Login() {
   const navigate = useNavigate();
+  const [loginType, setLoginType] = useState("student");
 
   const [form, setForm] = useState({
     email: "",
@@ -24,19 +25,23 @@ function Login() {
     try {
       const data = await loginUser(form);
 
-      // Save JWT Token
-      localStorage.setItem("token", data.token);
+      if (loginType === "admin" && data.user.role !== "admin") {
+        toast.error("This account is not an Admin.");
+        return;
+      }
 
-      // Save User Info
+      if (loginType === "student" && data.user.role !== "student") {
+        toast.error("This account is not a Student.");
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       toast.success("Login Successful");
-
       navigate("/dashboard");
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Login Failed"
-      );
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
 
@@ -47,13 +52,41 @@ function Login() {
         className="bg-white p-8 rounded-xl shadow-lg w-96"
       >
         <h2 className="text-3xl font-bold text-center mb-6">
-          Login
+          {loginType === "admin" ? "👨‍💼 Admin Login" : "👨‍🎓 Student Login"}
         </h2>
+        <div className="flex bg-gray-200 rounded-lg p-1 mb-6">
+
+          <button
+            type="button"
+            onClick={() => setLoginType("student")}
+            className={`w-1/2 py-2 rounded-lg font-semibold transition ${
+              loginType === "student"
+                ? "bg-blue-600 text-white"
+                : "text-gray-700"
+            }`}
+          >
+            👨‍🎓 Student
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setLoginType("admin")}
+            className={`w-1/2 py-2 rounded-lg font-semibold transition ${
+              loginType === "admin"
+                ? "bg-indigo-700 text-white"
+                : "text-gray-700"
+            }`}
+          >
+            👨‍💼 Admin
+          </button>
+
+        </div>
 
         <input
           type="email"
           name="email"
           placeholder="Email"
+          value={form.email}
           className="w-full border p-3 rounded mb-4"
           onChange={handleChange}
           required
@@ -63,6 +96,7 @@ function Login() {
           type="password"
           name="password"
           placeholder="Password"
+          value={form.password}
           className="w-full border p-3 rounded mb-6"
           onChange={handleChange}
           required
@@ -70,10 +104,25 @@ function Login() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700"
+          className={`w-full text-white py-3 rounded-lg transition ${
+            loginType === "admin"
+              ? "bg-indigo-700 hover:bg-indigo-800"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
         >
-          Login
+          {loginType === "admin"
+            ? "Login as Admin"
+            : "Login as Student"}
         </button>
+        <p className="text-center mt-5 text-gray-600">
+          Don't have an account?{" "}
+          <span
+            onClick={() => navigate("/register")}
+            className="text-blue-600 cursor-pointer font-semibold"
+          >
+            Register
+          </span>
+        </p>
       </form>
     </div>
   );

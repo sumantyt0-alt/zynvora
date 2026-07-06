@@ -9,7 +9,8 @@ import Register from "./pages/Register/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import NotFound from "./pages/NotFound/NotFound";
 import CourseDetails from "./pages/CourseDetails/CourseDetails";
-
+import AddCourse from "./pages/Admin/AddCourse";
+import ManageCourses from "./pages/Admin/ManageCourses";
 function App() {
   return (
     <Routes>
@@ -22,6 +23,8 @@ function App() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/courses/:id" element={<CourseDetails />} />
+      <Route path="/admin/add-course" element={<AddCourse />} />
+      <Route path="/admin/courses" element={<ManageCourses />} />
     </Routes>
   );
 }
