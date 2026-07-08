@@ -12,7 +12,6 @@ function Courses() {
     const loadCourses = async () => {
       try {
         const res = await getCourses();
-        setCourses(res);
         setCourses(res.courses || []);
       } catch (err) {
         console.log(err);
