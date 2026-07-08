@@ -87,7 +87,7 @@ function Navbar() {
               </span>
 
               <button
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/home")}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
               >
                 Dashboard
@@ -190,7 +190,7 @@ function Navbar() {
           ) : (
             <>
               <button
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/home")}
                 className="w-full text-left px-6 py-3"
               >
                 Dashboard
