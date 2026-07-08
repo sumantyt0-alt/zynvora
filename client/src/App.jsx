@@ -13,25 +13,90 @@ import AddCourse from "./pages/Admin/AddCourse";
 import ManageCourses from "./pages/Admin/ManageCourses";
 import MyLearning from "./pages/MyLearning/MyLearning";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
+import AdminRoute from "./components/AdminRoute";
+
 function App() {
   return (
     <Routes>
       <Route
-        path="/admin/edit-course/:id"
-        element={<AddCourse />}
-      />
-      <Route path="/" element={<Home />} />
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+
+      {/* Public Pages */}
+      <Route path="/home" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/courses" element={<Courses />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="*" element={<NotFound />} />
       <Route path="/courses/:id" element={<CourseDetails />} />
-      <Route path="/admin/add-course" element={<AddCourse />} />
-      <Route path="/admin/courses" element={<ManageCourses />} />
-      <Route path="/my-learning" element={<MyLearning />} />
+      <Route path="/contact" element={<Contact />} />
+
+      {/* Register */}
+        
+
+      <Route
+        path="/register"
+        element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        }
+      />
+
+      {/* Protected */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/my-learning"
+        element={
+          <ProtectedRoute>
+            <MyLearning />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Admin */}
+      <Route
+        path="/admin/add-course"
+        element={
+          <AdminRoute>
+            <AddCourse />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/edit-course/:id"
+        element={
+          <AdminRoute>
+            <AddCourse />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/courses"
+        element={
+          <AdminRoute>
+            <ManageCourses />
+          </AdminRoute>
+        }
+      />
+
+      <Route path="*" element={<NotFound />} />
+
     </Routes>
   );
 }

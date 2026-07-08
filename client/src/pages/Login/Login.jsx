@@ -57,7 +57,7 @@ function Login() {
 
 
       // Login ke baad Home page par jayega
-      navigate("/");
+      navigate("/home");
 
 
     } catch (error) {
