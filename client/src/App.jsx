@@ -11,9 +11,15 @@ import NotFound from "./pages/NotFound/NotFound";
 import CourseDetails from "./pages/CourseDetails/CourseDetails";
 import AddCourse from "./pages/Admin/AddCourse";
 import ManageCourses from "./pages/Admin/ManageCourses";
+import MyLearning from "./pages/MyLearning/MyLearning";
+
 function App() {
   return (
     <Routes>
+      <Route
+        path="/admin/edit-course/:id"
+        element={<AddCourse />}
+      />
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/courses" element={<Courses />} />
@@ -25,6 +31,7 @@ function App() {
       <Route path="/courses/:id" element={<CourseDetails />} />
       <Route path="/admin/add-course" element={<AddCourse />} />
       <Route path="/admin/courses" element={<ManageCourses />} />
+      <Route path="/my-learning" element={<MyLearning />} />
     </Routes>
   );
 }

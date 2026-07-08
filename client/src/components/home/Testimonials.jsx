@@ -1,69 +1,65 @@
 function Testimonials() {
-  const testimonials = [
+  const reviews = [
     {
       name: "Rahul Sharma",
-      role: "MERN Developer",
+      course: "MERN Stack",
       review:
-        "SkillForge helped me get my first developer job. The projects were amazing!",
-      image: "https://i.pravatar.cc/150?img=11",
+        "Best platform to learn web development. Projects were amazing!",
+      rating: "⭐⭐⭐⭐⭐",
     },
     {
       name: "Priya Singh",
-      role: "Python Developer",
+      course: "React Bootcamp",
       review:
-        "The instructors explained every concept clearly. Highly recommended!",
-      image: "https://i.pravatar.cc/150?img=5",
+        "The instructors explained everything clearly. Highly recommended.",
+      rating: "⭐⭐⭐⭐⭐",
     },
     {
       name: "Aman Verma",
-      role: "AI Engineer",
+      course: "Java Programming",
       review:
-        "Excellent platform for learning AI and Machine Learning with hands-on practice.",
-      image: "https://i.pravatar.cc/150?img=8",
+        "Loved the practical approach. I built my first project easily.",
+      rating: "⭐⭐⭐⭐⭐",
     },
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-gray-100">
       <div className="max-w-7xl mx-auto px-6">
 
         <h2 className="text-4xl font-bold text-center">
           What Our Students Say
         </h2>
 
-        <p className="text-center text-gray-500 mt-4">
-          Thousands of students trust SkillForge.
+        <p className="text-center text-gray-600 mt-4">
+          Thousands of learners trust Zynvora to build their careers.
         </p>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-14">
-          {testimonials.map((item, index) => (
+        <div className="grid md:grid-cols-3 gap-8 mt-14">
+
+          {reviews.map((item, index) => (
             <div
               key={index}
-              className="bg-gray-50 rounded-2xl p-8 shadow hover:shadow-xl transition"
+              className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition"
             >
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-20 h-20 rounded-full mx-auto"
-              />
-
-              <h3 className="mt-5 text-xl font-bold text-center">
-                {item.name}
-              </h3>
-
-              <p className="text-blue-600 text-center">
-                {item.role}
+              <p className="text-yellow-500 text-xl">
+                {item.rating}
               </p>
 
-              <p className="text-gray-600 mt-5 text-center italic">
+              <p className="text-gray-600 mt-5 italic">
                 "{item.review}"
               </p>
 
-              <div className="text-yellow-400 text-center mt-4 text-xl">
-                ⭐⭐⭐⭐⭐
-              </div>
+              <h3 className="text-xl font-bold mt-6">
+                {item.name}
+              </h3>
+
+              <span className="text-blue-600">
+                {item.course}
+              </span>
             </div>
           ))}
+
         </div>
 
       </div>

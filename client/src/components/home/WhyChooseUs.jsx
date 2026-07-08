@@ -1,65 +1,58 @@
-import {
-  FaLaptopCode,
-  FaUserGraduate,
-  FaCertificate,
-  FaInfinity,
-} from "react-icons/fa";
+import { FaLaptopCode, FaCertificate, FaUserGraduate } from "react-icons/fa";
 
 function WhyChooseUs() {
   const features = [
     {
-      icon: <FaLaptopCode />,
+      icon: <FaLaptopCode className="text-5xl text-blue-600" />,
       title: "Hands-on Projects",
-      desc: "Build real-world projects while learning.",
+      description:
+        "Build real-world projects and gain practical experience.",
     },
     {
-      icon: <FaUserGraduate />,
+      icon: <FaCertificate className="text-5xl text-green-600" />,
+      title: "Certification",
+      description:
+        "Get industry-recognized certificates after course completion.",
+    },
+    {
+      icon: <FaUserGraduate className="text-5xl text-purple-600" />,
       title: "Expert Mentors",
-      desc: "Learn from experienced developers.",
-    },
-    {
-      icon: <FaCertificate />,
-      title: "Certificates",
-      desc: "Get certificates after course completion.",
-    },
-    {
-      icon: <FaInfinity />,
-      title: "Lifetime Access",
-      desc: "Access your courses anytime.",
+      description:
+        "Learn directly from experienced industry professionals.",
     },
   ];
 
   return (
-    <section className="py-20 bg-slate-50">
+    <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-6">
 
         <h2 className="text-4xl font-bold text-center">
-          Why Choose SkillForge?
+          Why Choose Zynvora?
         </h2>
 
         <p className="text-center text-gray-500 mt-4">
-          Everything you need to become a professional developer.
+          Everything you need to become job-ready.
         </p>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-14">
+        <div className="grid md:grid-cols-3 gap-8 mt-14">
+
           {features.map((item, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl shadow-md p-8 text-center hover:shadow-xl transition"
+              className="bg-gray-50 rounded-2xl shadow-lg p-8 hover:-translate-y-2 hover:shadow-xl transition"
             >
-              <div className="text-5xl text-blue-600 flex justify-center">
-                {item.icon}
-              </div>
+              {item.icon}
 
-              <h3 className="mt-6 text-xl font-bold">
+              <h3 className="text-2xl font-bold mt-6">
                 {item.title}
               </h3>
 
-              <p className="mt-3 text-gray-500">
-                {item.desc}
+              <p className="text-gray-600 mt-4 leading-7">
+                {item.description}
               </p>
             </div>
           ))}
+
         </div>
 
       </div>

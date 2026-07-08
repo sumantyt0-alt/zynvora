@@ -5,10 +5,12 @@ import {
   getCourseById,
   updateCourse,
   deleteCourse,
+  togglePublishCourse
 } from "../controllers/courseController.js";
 
 import authMiddleware from "../middleware/authMiddleware.js";
 import adminMiddleware from "../middleware/adminMiddleware.js";
+import upload from "../middleware/upload.js";
 
 const router = express.Router();
 
@@ -17,6 +19,7 @@ router.post(
   "/",
   authMiddleware,
   adminMiddleware,
+  upload.single("image"),
   createCourse
 );
 
@@ -28,6 +31,13 @@ router.get("/:id", getCourseById);
 
 // Update Course (Admin Only)
 router.put("/:id", authMiddleware, adminMiddleware, updateCourse);
+
+router.patch(
+  "/:id/publish",
+  authMiddleware,
+  adminMiddleware,
+  togglePublishCourse
+);
 
 // Delete Course (Admin Only)
 router.delete("/:id", authMiddleware, adminMiddleware, deleteCourse);

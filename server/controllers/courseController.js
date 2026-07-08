@@ -1,4 +1,5 @@
 import Course from "../models/Course.js";
+import cloudinary from "../config/cloudinary.js";
 
 export const createCourse = async (req, res) => {
   try {
@@ -137,3 +138,34 @@ export const deleteCourse = async (req, res) => {
     });
   }
 };
+
+export const togglePublishCourse = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: "Course not found",
+      });
+    }
+
+    course.isPublished = !course.isPublished;
+
+    await course.save();
+
+    res.status(200).json({
+      success: true,
+      message: `Course ${
+        course.isPublished ? "published" : "unpublished"
+      } successfully`,
+      course,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+

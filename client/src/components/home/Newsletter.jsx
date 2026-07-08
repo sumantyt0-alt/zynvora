@@ -1,25 +1,25 @@
 function Newsletter() {
   return (
-    <section className="py-20 bg-blue-600 text-white">
+    <section className="bg-blue-700 py-20 text-white">
       <div className="max-w-4xl mx-auto text-center px-6">
 
         <h2 className="text-4xl font-bold">
           Stay Updated 🚀
         </h2>
 
-        <p className="mt-4 text-blue-100">
-          Subscribe to get the latest courses, offers, and learning tips.
+        <p className="mt-4 text-lg text-blue-100">
+          Subscribe to get the latest courses, offers and updates.
         </p>
 
-        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="mt-10 flex flex-col md:flex-row gap-4 justify-center">
 
           <input
             type="email"
             placeholder="Enter your email"
-            className="px-5 py-3 rounded-xl text-black w-full sm:w-96 outline-none"
+            className="w-full md:w-96 px-5 py-3 rounded-lg text-black outline-none"
           />
 
-          <button className="bg-white text-blue-600 px-6 py-3 rounded-xl font-semibold hover:bg-gray-100 transition">
+          <button className="bg-yellow-400 text-black font-bold px-8 py-3 rounded-lg hover:bg-yellow-300 transition">
             Subscribe
           </button>
 

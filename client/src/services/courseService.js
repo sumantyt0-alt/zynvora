@@ -11,6 +11,8 @@ export const getCourseById = async (id) => {
   const response = await API.get(`/courses/${id}`);
   return response.data;
 };
+
+// Enroll course
 export const enrollCourse = async (courseId, token) => {
   const response = await API.post(
     "/enrollments",

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import AdminDashboard from "./AdminDashboard";
 import StudentDashboard from "./StudentDashboard";
+import Navbar from "../../components/Navbar/Navbar";
 function Dashboard() {
   const navigate = useNavigate();
 
@@ -14,6 +15,8 @@ function Dashboard() {
   };
 
   return (
+    <>
+      <Navbar />
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
       <div className="bg-blue-600 text-white py-6 shadow">
@@ -46,6 +49,7 @@ function Dashboard() {
         )}
       </div>
     </div>
+    </>
   );
 }
 
