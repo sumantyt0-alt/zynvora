@@ -27,7 +27,7 @@ function Navbar() {
         {/* Logo */}
 
         <Link
-          to="/"
+          to="/home"
           className="flex items-center gap-2 text-2xl font-bold text-blue-600"
         >
           <FaGraduationCap className="text-3xl" />
@@ -40,7 +40,7 @@ function Navbar() {
         <div className="hidden md:flex items-center gap-8">
 
           <NavLink
-            to="/"
+            to="/home"
             className={navLink}
           >
             Home
@@ -137,7 +137,7 @@ function Navbar() {
         <div className="md:hidden bg-white border-t">
 
           <NavLink
-            to="/"
+            to="/home"
             className="block px-6 py-3"
           >
             Home
