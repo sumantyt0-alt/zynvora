@@ -1,33 +1,8 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAdminDashboard } from "../../services/dashboardService";
+
 
 function AdminDashboard() {
   const navigate = useNavigate();
-
-  const [stats, setStats] = useState({
-    totalCourses: 0,
-    totalStudents: 0,
-    totalEnrollments: 0,
-    totalRevenue: 0,
-  });
-
-  useEffect(() => {
-    const fetchDashboard = async () => {
-      try {
-        const token = localStorage.getItem("token");
-
-        const data = await getAdminDashboard(token);
-
-        setStats(data.stats);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchDashboard();
-  }, []);
-
   return (
     <div className="space-y-8">
 
@@ -50,28 +25,28 @@ function AdminDashboard() {
         <div className="bg-white rounded-2xl shadow-lg p-6">
           <h3 className="text-gray-500">📚 Total Courses</h3>
           <p className="text-4xl font-bold mt-3 text-blue-600">
-            {stats.totalCourses}
+            12
           </p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-6">
           <h3 className="text-gray-500">👨‍🎓 Students</h3>
           <p className="text-4xl font-bold mt-3 text-green-600">
-            {stats.totalStudents}
+            256
           </p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-6">
           <h3 className="text-gray-500">📝 Enrollments</h3>
           <p className="text-4xl font-bold mt-3 text-purple-600">
-            {stats.totalEnrollments}
+            89
           </p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-6">
           <h3 className="text-gray-500">💰 Revenue</h3>
           <p className="text-4xl font-bold mt-3 text-orange-500">
-            ₹{stats.totalRevenue}
+            ₹45,000
           </p>
         </div>
 
