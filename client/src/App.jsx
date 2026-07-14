@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
@@ -16,10 +16,12 @@ import MyLearning from "./pages/MyLearning/MyLearning";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import AdminRoute from "./components/AdminRoute";
+import Learn from "./pages/Learn/Learn";
 
 function App() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/home" replace />} />
       <Route
           path="/login"
           element={
@@ -95,6 +97,14 @@ function App() {
         }
       />
 
+      <Route
+        path="/learn/:id"
+        element={
+          <ProtectedRoute>
+            <Learn />
+          </ProtectedRoute>
+        }
+      />
       <Route path="*" element={<NotFound />} />
 
     </Routes>

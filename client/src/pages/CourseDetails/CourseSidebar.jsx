@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { enrollCourse } from "../../services/courseService";
 import { useState } from "react";
 import PaymentModal from "../../components/PaymentModal";
+import { createOrder } from "../../services/paymentService";
 
 function CourseSidebar({ course }) {
   const navigate = useNavigate();
@@ -11,42 +12,66 @@ function CourseSidebar({ course }) {
   const [openModel, setOpenModel] = useState(false);
 
   const handlePayment = async () => {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-    if (!token) {
-      toast.warning("Please login first");
-      navigate("/login");
-      return;
-    }
+  if (!token) {
+    toast.warning("Please login first");
+    navigate("/login");
+    return;
+  }
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      // Demo Payment Delay
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Create Razorpay Order
+    const order = await createOrder(course.price, token);
 
-      toast.success("Payment Successful 🎉");
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
 
-      const data = await enrollCourse(course._id, token);
+      amount: order.order.amount,
 
-      toast.success(data.message);
+      currency: order.order.currency,
 
-      setOpenModel(false);
-      console.log("Navigating to my learning...");
-      navigate("/my-learning");
-    } catch (error) {
-      if (error.response?.data?.message === "Already enrolled in this course") {
-        toast.info("You already own this course.");
+      name: "Zynvora",
+
+      description: course.title,
+
+      order_id: order.order.id,
+
+      handler: async function () {
+        toast.success("Payment Successful 🎉");
+
+        const data = await enrollCourse(course._id, token);
+
+        toast.success(data.message);
+
         navigate("/my-learning");
-        return;
-      }
-      toast.error(
-        error.response?.data?.message || "Enrollment failed"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+      },
+
+      prefill: {
+        name: JSON.parse(localStorage.getItem("user"))?.name,
+
+        email: JSON.parse(localStorage.getItem("user"))?.email,
+      },
+
+      theme: {
+        color: "#2563eb",
+      },
+    };
+
+    const razor = new window.Razorpay(options);
+
+    razor.open();
+  } catch (error) {
+    console.log(error);
+
+    toast.error("Payment Failed");
+  } finally {
+    setLoading(false);
+    setOpenModel(false);
+  }
+};
 
   return (
     <>

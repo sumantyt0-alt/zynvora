@@ -87,15 +87,15 @@ function Navbar() {
               </span>
 
               <button
-                onClick={() => navigate("/home")}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                onClick={() => navigate("/dashboard")}
+                className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
               >
                 Dashboard
               </button>
 
               <button
                 onClick={logout}
-                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+                className="cursor-pointer bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
               >
                 Logout
               </button>
@@ -190,8 +190,8 @@ function Navbar() {
           ) : (
             <>
               <button
-                onClick={() => navigate("/home")}
-                className="w-full text-left px-6 py-3"
+                onClick={() => navigate("/dashboard")}
+                className="cursor-pointer w-full text-left px-6 py-3"
               >
                 Dashboard
               </button>
