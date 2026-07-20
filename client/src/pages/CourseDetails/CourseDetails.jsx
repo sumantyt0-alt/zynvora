@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getCourseById } from "../../services/courseService";
+import { toast } from "react-toastify";
 
 import CourseHero from "./CourseHero";
 import CourseSidebar from "./CourseSidebar";
@@ -23,6 +24,8 @@ function CourseDetails() {
         }
       } catch (error) {
         console.error(error);
+        toast.error(
+          error.response?.data?.message || "Failed to load course");
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -39,11 +42,21 @@ function CourseDetails() {
 
   if (loading) {
     return (
-      <h1 className="text-center text-3xl py-20">
-        Loading...
-      </h1>
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-14 w-14 border-b-4 border-blue-600"></div>
+      </div>
     );
   }
+
+  if (!course) {
+  return (
+    <div className="text-center py-20">
+      <h1 className="text-3xl font-bold">
+        Course Not Found
+      </h1>
+    </div>
+  );
+}
 
   return (
     <div className="bg-gray-100 min-h-screen">

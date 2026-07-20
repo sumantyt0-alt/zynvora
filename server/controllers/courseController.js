@@ -12,6 +12,8 @@ export const createCourse = async (req, res) => {
       price,
       thumbnail,
       duration,
+      lessons,
+      quiz,
     } = req.body;
 
     const course = await Course.create({
@@ -20,9 +22,11 @@ export const createCourse = async (req, res) => {
       instructor,
       category,
       level,
-      price,
+      price: Number(price),
       thumbnail,
       duration,
+      lessons,
+      quiz,
       createdBy: req.user.id,
     });
 
@@ -88,8 +92,12 @@ export const getCourseById = async (req, res) => {
 export const updateCourse = async (req, res) => {
   try {
     const course = await Course.findByIdAndUpdate(
-      req.params.id,
-      req.body,
+      req.params.id,{
+        ...req.body,
+        quiz: req.body.quiz,
+        price: Number(req.body.price),
+      },
+      
       {
         new: true,
         runValidators: true,

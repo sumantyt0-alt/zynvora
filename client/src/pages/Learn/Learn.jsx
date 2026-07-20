@@ -1,15 +1,18 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import { getCourseById } from "../../services/courseService";
+import { getProgress , markLessonComplete} from "../../services/progressService";
 import {
-  updateProgress,
-  getProgress,
-} from "../../services/progressService";
+  generateCertificate,
+  downloadCertificate,
+} from "../../services/certificateService";
+import { toast } from "react-toastify";
 
 function Learn() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [course, setCourse] = useState(null);
 
@@ -18,6 +21,7 @@ function Learn() {
 
   const [currentLesson, setCurrentLesson] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [certificate, setCertificate] = useState(null);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -29,7 +33,11 @@ function Learn() {
         const progressData = await getProgress(id, token);
 
         if (progressData.progress) {
-          setProgress(progressData.progress.percentage);
+          setProgress(progressData.progress.progress);
+
+          if (progressData.progress.certificate) {
+            setCertificate(progressData.progress.certificate);
+          }
 
           if (
             progressData.progress.completedLessons &&
@@ -49,32 +57,29 @@ function Learn() {
   }, [id]);
 
   if (!course) {
-  return (
-    <div className="text-center mt-20 text-2xl">
-      Loading...
-    </div>
-  );
-}
-
-if (course.lessons.length === 0) {
-  return (
-    <>
-      <Navbar />
-
-      <div className="text-center py-20">
-        <h1 className="text-4xl font-bold">
-          No Lessons Available
-        </h1>
-
-        <p className="text-gray-500 mt-4">
-          This course doesn't have any lessons yet.
-        </p>
+    return (
+      <div className="text-center mt-20 text-2xl">
+        Loading...
       </div>
+    );
+  }
 
-      <Footer />
-    </>
-  );
-}
+  if (!course.lessons || course.lessons.length === 0) {
+    return (
+      <>
+        <Navbar />
+
+        <div className="text-center py-20">
+          <h1 className="text-4xl font-bold">No Lessons Available</h1>
+          <p className="text-gray-500 mt-4">
+            This course doesn't have any lessons yet.
+          </p>
+        </div>
+
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -166,32 +171,85 @@ if (course.lessons.length === 0) {
 
               </div>
 
-              <button
-                onClick={async () => {
-                  if (currentLesson >= lessons.length - 1) return;
+              <div className="mt-8">
 
-                  const nextLesson = currentLesson + 1;
+                <button
+                  onClick={() => navigate("/courses")}
+                  className="mr-4 bg-gray-700 text-white px-6 py-3 rounded-lg hover:bg-gray-800"
+                >
+                  ← Back to Courses
+                </button>
 
-                  setCurrentLesson(nextLesson);
+                <button
+                  disabled={currentLesson === lessons.length - 1}
+                  onClick={() => {
+                      setCurrentLesson(currentLesson + 1);
+                  }}
+                  className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
+                >
+                  Next Lesson →
+                </button>
 
-                  try {
-                    const token = localStorage.getItem("token");
+                <button
+                  onClick={async () => {
+                    try {
+                      const token = localStorage.getItem("token");
 
-                    const data = await updateProgress(
-                      id,
-                      nextLesson,
-                      token
-                    );
+                      const data = await markLessonComplete(
+                        id,
+                        currentLesson,
+                        token
+                      );
 
-                    setProgress(data.progress.percentage);
-                  } catch (err) {
-                    console.log(err);
-                  }
-                }}
-                className="mt-8 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
-              >
-                Next Lesson →
-              </button>
+                      const updatedProgress =
+                        data.progress?.progress ||
+                        data.progress?.percentage ||
+                        progress;
+
+                      setProgress(updatedProgress);
+
+                      if (updatedProgress === 100) {
+                        const cert = await generateCertificate(id, token);
+
+                        setCertificate(cert.certificate);
+
+                        toast.success("🎉 Certificate Unlocked!");
+                      } else {
+                        toast.success("Lesson Completed ✅");
+                      }
+
+                    } catch (err) {
+                      console.log(err);
+                      toast.error("Something went wrong");
+                    }
+                  }}
+                  className="ml-4 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
+                >
+                  ✓ Mark as Completed
+                </button>
+
+                {currentLesson === lessons.length - 1 && progress >= 100 && (
+                  <button
+                    onClick={() => navigate(`/quiz/${id}`)}
+                    className="ml-4 bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg"
+                  >
+                    🎯 Start Quiz
+                  </button>
+                )}
+
+                {progress === 100 && certificate && (
+                  <button
+                    onClick={() => {
+                      const token = localStorage.getItem("token");
+                      downloadCertificate(certificate._id, token);
+                    }}
+                    className="ml-4 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg"
+                  >
+                    🏆 Download Certificate
+                  </button>
+                )}
+
+              </div>
 
             </div>
 

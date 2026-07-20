@@ -54,6 +54,46 @@ const courseSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    lessons: [
+      {
+        title: {
+          type: String,
+          required: true,
+        },
+        videoUrl: {
+          type: String,
+          required: true,
+        },
+        duration: {
+          type: String,
+          default: "10 min",
+        },
+        isPreview: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
+
+    quiz: [
+      {
+        question: {
+          type: String,
+          required: true,
+        },
+
+        options: [
+          {
+            type: String,
+          },
+        ],
+
+        answer: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

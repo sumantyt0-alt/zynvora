@@ -11,7 +11,8 @@ import NotFound from "./pages/NotFound/NotFound";
 import CourseDetails from "./pages/CourseDetails/CourseDetails";
 import AddCourse from "./pages/Admin/AddCourse";
 import ManageCourses from "./pages/Admin/ManageCourses";
-import MyLearning from "./pages/MyLearning/MyLearning";
+import MyLearning from "./pages/learning/MyLearning";
+import Quiz from "./pages/Learn/Quiz";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
@@ -105,8 +106,15 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/quiz/:id"
+        element={
+          <ProtectedRoute>
+            <Quiz />
+          </ProtectedRoute>
+        }
+      />
       <Route path="*" element={<NotFound />} />
-
     </Routes>
   );
 }

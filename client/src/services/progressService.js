@@ -1,12 +1,12 @@
 import API from "./api";
 
-export const updateProgress = async (
+export const markLessonComplete = async (
   courseId,
   lessonIndex,
   token
 ) => {
-  const response = await API.post(
-    "/progress/update",
+  const { data } = await API.post(
+    "/progress/complete",
     {
       courseId,
       lessonIndex,
@@ -18,11 +18,14 @@ export const updateProgress = async (
     }
   );
 
-  return response.data;
+  return data;
 };
 
-export const getProgress = async (courseId, token) => {
-  const response = await API.get(
+export const getProgress = async (
+  courseId,
+  token
+) => {
+  const { data } = await API.get(
     `/progress/${courseId}`,
     {
       headers: {
@@ -31,5 +34,6 @@ export const getProgress = async (courseId, token) => {
     }
   );
 
-  return response.data;
+  return data;
 };
+

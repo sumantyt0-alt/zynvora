@@ -12,6 +12,11 @@ function CourseReviews({ course }) {
       <div className="mt-8 border-t pt-6">
         <h3 className="text-2xl font-bold">
           What you'll learn
+          {course.lessons?.map((lesson) => (
+            <li key={lesson._id || lesson.title}>
+              {lesson.title}
+            </li>
+          ))}
         </h3>
 
         <ul className="mt-4 space-y-3 text-gray-600 list-disc list-inside">

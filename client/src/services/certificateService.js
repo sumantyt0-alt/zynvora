@@ -1,7 +1,7 @@
 import API from "./api";
 
 export const generateCertificate = async (courseId, token) => {
-  const response = await API.post(
+  const { data } = await API.post(
     "/certificates/generate",
     { courseId },
     {
@@ -11,12 +11,29 @@ export const generateCertificate = async (courseId, token) => {
     }
   );
 
-  return response.data;
+  return data;
 };
 
-export const downloadCertificate = (certificateId, token) => {
-  window.open(
-    `${API.defaults.baseURL}/certificates/download/${certificateId}?token=${token}`,
-    "_blank"
+export const downloadCertificate = async (certificateId, token) => {
+  const response = await API.get(
+    `/certificates/download/${certificateId}`,
+    {
+      responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
+
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "certificate.pdf";
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  window.URL.revokeObjectURL(url);
 };

@@ -9,7 +9,7 @@ function CourseSidebar({ course }) {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
-  const [openModel, setOpenModel] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const handlePayment = async () => {
   const token = localStorage.getItem("token");
@@ -25,7 +25,7 @@ function CourseSidebar({ course }) {
 
     // Create Razorpay Order
     const order = await createOrder(course.price, token);
-
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
 
@@ -50,27 +50,31 @@ function CourseSidebar({ course }) {
       },
 
       prefill: {
-        name: JSON.parse(localStorage.getItem("user"))?.name,
-
-        email: JSON.parse(localStorage.getItem("user"))?.email,
+        name: user.name,
+        email: user.email,
       },
 
       theme: {
         color: "#2563eb",
       },
     };
-
+    if (!window.Razorpay) {
+     toast.error("Razorpay SDK not loaded");
+      return;
+    }
     const razor = new window.Razorpay(options);
 
     razor.open();
   } catch (error) {
     console.log(error);
 
-    toast.error("Payment Failed");
-  } finally {
-    setLoading(false);
-    setOpenModel(false);
-  }
+    toast.error(
+      error.response?.data?.message || error.message || "Payment Failed"
+    ); 
+    } finally {
+      setLoading(false);
+      setOpenModal(false);
+    }
 };
 
   return (
@@ -105,15 +109,16 @@ function CourseSidebar({ course }) {
         </div>
 
         <button
-          onClick={() => setOpenModel(true)}
-          className="w-full bg-green-600 text-white py-3 rounded-lg "
+          disabled={loading}
+          onClick={() => setOpenModal(true)}
+          className="w-full bg-green-600 text-white py-3 rounded-lg disabled:bg-gray-400"
         >
-          Buy Now
+          {loading ? "Processing..." : "Buy Now"}
         </button>
 
         <PaymentModal
-          isOpen={openModel}
-          onClose={() => setOpenModel(false)}
+          isOpen={openModal}
+          onClose={() => setOpenModal(false)}
           onPay={handlePayment}
           course={course}
           loading={loading}

@@ -11,7 +11,7 @@ function CourseHero({ course }) {
         </p>
 
         <div className="mt-6 flex flex-wrap gap-6">
-          <span>👨‍🏫 {course.instructor}</span>
+          <span>👨‍🏫 {course.instructor?.name || course.instructor}</span>
 
           <span>📚 {course.category}</span>
 
