@@ -1,5 +1,5 @@
 import Navbar from "../../components/Navbar/Navbar";
-import Hero from "../../components/Home/Hero";
+import Hero from "../../components/home/Hero";
 import FeaturedCourses from "../../components/Home/FeaturedCourses";
 import Categories from "../../components/Home/Categories";
 import Footer from "../../components/Footer/Footer";
