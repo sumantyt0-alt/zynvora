@@ -8,7 +8,7 @@ import Testimonials from "../../components/home/Testimonials";
 import Newsletter from "../../components/home/Newsletter";
 
 
-function home() {
+function Home() {
   return (
     <>
       <Navbar />
@@ -23,4 +23,4 @@ function home() {
   );
 }
 
-export default home;
+export default Home;
