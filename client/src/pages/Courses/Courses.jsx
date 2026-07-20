@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import { getCourses } from "../../services/courseService";
-import CourseCard from "../../components/Home/CourseCard";
+import CourseCard from "../../components/home/CourseCard";
 
 function Courses() {
   const [courses, setCourses] = useState([]);
