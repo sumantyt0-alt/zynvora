@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import home from "./pages/home/home";
+import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import Courses from "./pages/Courses/Courses";
 import Contact from "./pages/Contact/Contact";
@@ -33,7 +33,7 @@ function App() {
         />
 
       {/* Public Pages */}
-      <Route path="/home" element={<home />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/courses" element={<Courses />} />
       <Route path="/courses/:id" element={<CourseDetails />} />
