@@ -43,7 +43,7 @@ function Navbar() {
             to="/home"
             className={navLink}
           >
-            Home
+            home
           </NavLink>
 
           <NavLink
@@ -140,7 +140,7 @@ function Navbar() {
             to="/home"
             className="block px-6 py-3"
           >
-            Home
+            home
           </NavLink>
 
           <NavLink

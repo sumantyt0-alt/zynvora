@@ -56,7 +56,7 @@ function Login() {
       toast.success("Login Successful");
 
 
-      // Login ke baad Home page par jayega
+      // Login ke baad home page par jayega
       navigate("/home");
 
 

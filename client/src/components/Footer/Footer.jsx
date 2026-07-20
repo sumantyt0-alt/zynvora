@@ -30,7 +30,7 @@ function Footer() {
 
           <ul className="space-y-3 text-gray-400">
 
-            <li><Link to="/">Home</Link></li>
+            <li><Link to="/">home</Link></li>
 
             <li><Link to="/courses">Courses</Link></li>
 
