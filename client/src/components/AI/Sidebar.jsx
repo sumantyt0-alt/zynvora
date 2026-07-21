@@ -1,4 +1,4 @@
-const Sidebar = () => {
+const Sidebar = ({ onNewChat }) => {
   return (
     <div className="w-72 bg-gray-900 text-white flex flex-col">
 
@@ -10,21 +10,26 @@ const Sidebar = () => {
 
       </div>
 
-      <button className="m-4 bg-blue-600 hover:bg-blue-700 rounded-lg py-3">
+
+      <button
+        onClick={onNewChat}
+        className="m-4 bg-blue-600 hover:bg-blue-700 rounded-lg py-3"
+      >
         + New Chat
       </button>
 
+
       <div className="px-4 space-y-2">
 
-        <div className="bg-gray-800 rounded-lg p-3 cursor-pointer">
+        <div className="bg-gray-800 rounded-lg p-3">
           React Notes
         </div>
 
-        <div className="bg-gray-800 rounded-lg p-3 cursor-pointer">
+        <div className="bg-gray-800 rounded-lg p-3">
           Java Quiz
         </div>
 
-        <div className="bg-gray-800 rounded-lg p-3 cursor-pointer">
+        <div className="bg-gray-800 rounded-lg p-3">
           MERN Roadmap
         </div>
 

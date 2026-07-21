@@ -1,28 +1,48 @@
+import { useState } from "react";
+
+import Sidebar from "../../components/AI/Sidebar";
+import Header from "../../components/AI/Header";
 import ChatBox from "../../components/AI/ChatBox";
 
+
 const AIChat = () => {
+
+  const [chatKey, setChatKey] = useState(0);
+
+
+  const handleNewChat = () => {
+    setChatKey((prev) => prev + 1);
+  };
+
+
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="h-screen flex bg-gray-100">
 
-      <div className="max-w-4xl mx-auto">
 
-        <div className="mb-6 text-center">
+      {/* Sidebar */}
+      <Sidebar 
+        onNewChat={handleNewChat}
+      />
 
-          <h1 className="text-4xl font-bold">
-            🤖 Zynvora AI
-          </h1>
 
-          <p className="text-gray-600 mt-2">
-            Your AI learning assistant
-          </p>
+      {/* Main Area */}
+      <div className="flex-1 flex flex-col">
+
+
+        {/* Header */}
+        <Header />
+
+
+        {/* Chat Area */}
+        <div className="flex-1 overflow-hidden">
+
+          <ChatBox key={chatKey} />
 
         </div>
 
 
-        <ChatBox />
-
-
       </div>
+
 
     </div>
   );

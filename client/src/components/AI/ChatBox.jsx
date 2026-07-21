@@ -1,34 +1,45 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Message from "./Message";
 import Typing from "./Typing";
 import SuggestionCard from "./SuggestionCard";
+import ChatInput from "./ChatInput";
 import { askAI } from "../../services/aiService";
 
 const ChatBox = () => {
+  const [messages, setMessages] = useState([
+    {
+      role: "ai",
+      text: "👋 Hello! I am Zynvora AI. How can I help you today?",
+    },
+  ]);
 
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const chatEndRef = useRef(null);
 
-  const sendMessage = async (text = input) => {
+
+  // Auto scroll
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [messages, loading]);
+
+
+  const sendMessage = async (text) => {
 
     if (!text.trim()) return;
 
 
-    const userMessage = {
-      role: "user",
-      text: text,
-    };
-
-
     setMessages((prev) => [
       ...prev,
-      userMessage
+      {
+        role: "user",
+        text,
+      },
     ]);
 
 
-    setInput("");
     setLoading(true);
 
 
@@ -47,17 +58,18 @@ const ChatBox = () => {
 
 
     } catch (error) {
-        console.log("Full Error:", error);
-        console.log("Response:", error.response);
-        console.log("Data:", error.response?.data);
 
-        setMessages((prev) => [
-            ...prev,
-            {
-            role: "ai",
-            text: "Something went wrong ❌",
-            },
-        ]);
+      console.log(error);
+
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "ai",
+          text: "❌ Something went wrong. Try again.",
+        },
+      ]);
+
     }
 
 
@@ -65,74 +77,83 @@ const ChatBox = () => {
   };
 
 
+
   const suggestions = [
     "Explain React",
-    "Generate Java notes",
-    "Create a learning roadmap",
-    "Explain JavaScript"
+    "Generate Java Notes",
+    "Create MERN Roadmap",
+    "Explain DBMS",
   ];
 
 
-  return (
-    <div className="bg-white rounded-xl shadow-lg p-5">
 
-      <div className="h-125 overflow-y-auto space-y-3 mb-4">
+  return (
+
+    <div className="flex flex-col h-full">
+
+
+      {/* Messages Area */}
+      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+
 
         {messages.map((msg,index)=>(
+
           <Message
             key={index}
             role={msg.role}
             text={msg.text}
           />
+
         ))}
 
 
-        {loading && <Typing />}
+        {
+          loading && <Typing />
+        }
+
+
+        <div ref={chatEndRef}></div>
+
 
       </div>
 
 
 
-      <div className="flex gap-2">
+      {/* Suggestions */}
 
-        <input
-          value={input}
-          onChange={(e)=>setInput(e.target.value)}
-          onKeyDown={(e)=>{
-            if(e.key==="Enter"){
-              sendMessage();
+      {
+        messages.length === 1 && (
+
+          <div className="px-6 pb-3 flex flex-wrap gap-3">
+
+            {
+              suggestions.map((item,index)=>(
+
+                <SuggestionCard
+                  key={index}
+                  text={item}
+                  onClick={sendMessage}
+                />
+
+              ))
             }
-          }}
-          placeholder="Ask Zynvora AI..."
-          className="flex-1 border rounded-lg p-3"
-        />
 
+          </div>
 
-        <button
-          onClick={()=>sendMessage()}
-          className="bg-black text-white px-5 rounded-lg"
-        >
-          Send
-        </button>
-
-      </div>
+        )
+      }
 
 
 
-      <div className="flex flex-wrap gap-2 mt-4">
+      {/* Input */}
 
-        {suggestions.map((item,index)=>(
-          <SuggestionCard
-            key={index}
-            text={item}
-            onClick={sendMessage}
-          />
-        ))}
-
-      </div>
+      <ChatInput
+        onSend={sendMessage}
+      />
 
 
     </div>
+
   );
 };
 
