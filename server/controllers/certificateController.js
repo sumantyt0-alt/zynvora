@@ -1,4 +1,4 @@
-import Certificate from "../models/Certificate.js";
+import Certificate from "../models/certificate.js";
 import { v4 as uuid } from "uuid";
 import PDFDocument from "pdfkit";
 import Progress from "../models/Progress.js";
