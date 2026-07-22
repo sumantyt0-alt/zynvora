@@ -1,7 +1,10 @@
 import express from "express";
-import { chatWithAI } from "../controllers/aiController.js";
 import protect from "../middleware/authMiddleware.js";
-
+import { 
+  chatWithAI,
+  getChatHistory,
+  getSingleChat
+} from "../controllers/aiController.js";
 
 const router = express.Router();
 
@@ -11,6 +14,10 @@ router.post(
   protect,
   chatWithAI
 );
-
-
+router.get(
+  "/chats",
+  protect,
+  getChatHistory
+);
+router.get("/chats/:id",protect,getSingleChat);
 export default router;

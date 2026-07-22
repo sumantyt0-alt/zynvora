@@ -96,3 +96,47 @@ export const chatWithAI = async (req, res) => {
   }
 
 };
+
+export const getChatHistory = async (req, res) => {
+  try {
+
+    const chats = await Chat.find({
+      user: req.user.id,
+    })
+    .sort({
+      createdAt: -1,
+    });
+
+
+    res.json(chats);
+
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+};
+
+export const getSingleChat = async (req, res) => {
+  try {
+    const chat = await Chat.findOne({
+      _id: req.params.id,
+      user: req.user.id,
+    });
+
+    if (!chat) {
+      return res.status(404).json({
+        message: "Chat not found",
+      });
+    }
+
+    res.json(chat);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
