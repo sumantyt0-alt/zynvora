@@ -6,16 +6,27 @@ const genAI = new GoogleGenerativeAI(
 
 export const askAI = async (message) => {
   try {
+
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash"
+      model: "gemini-1.5-flash",
     });
+
 
     const result = await model.generateContent(message);
 
-    return result.response.text();
+
+    const response = result.response.text();
+
+    return response;
+
 
   } catch (error) {
-    console.log("AI Error:", error.message);
-    return "AI service error";
-  }
+      console.log("========== GEMINI ERROR ==========");
+      console.log(error);
+      console.log("Message:", error.message);
+      console.log("Status:", error.status);
+      console.log("=================================");
+
+      return "AI service error";
+    }
 };
