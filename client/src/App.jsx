@@ -18,11 +18,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import AdminRoute from "./components/AdminRoute";
 import Learn from "./pages/Learn/Learn";
-import AIChat from "./pages/AI/AIChat";
-import Assistant from "./pages/AI/Assistant";
-import NotesGenerator from "./pages/AI/NotesGenerator";
-import QuizGenerator from "./pages/AI/QuizGenerator";
-import Roadmap from "./pages/AI/Roadmap";
 
 function App() {
   return (
@@ -119,15 +114,6 @@ function App() {
           </ProtectedRoute>
         }
       />
-      <Route 
-        path="/ai-chat"
-        element={<AIChat />
-        }
-      />
-      <Route path="/assistant" element={<Assistant />} />
-      <Route path="/notes-generator" element={<NotesGenerator />} />
-      <Route path="/quiz-generator" element={<QuizGenerator />} />
-      <Route path="/roadmap" element={<Roadmap />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

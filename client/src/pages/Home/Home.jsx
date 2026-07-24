@@ -6,6 +6,7 @@ import Footer from "../../components/Footer/Footer";
 import WhyChooseUs from "../../components/home/WhyChooseUs";
 import Testimonials from "../../components/home/Testimonials";
 import Newsletter from "../../components/home/Newsletter";
+import Assistant from "../../components/Assistant/Assistant";
 
 
 function Home() {
@@ -19,6 +20,7 @@ function Home() {
       <Categories />
       <Newsletter />
       <Footer />
+      <Assistant />
     </>
   );
 }

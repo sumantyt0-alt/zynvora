@@ -74,6 +74,13 @@ function Navbar() {
             Contact
           </NavLink>
 
+          <NavLink
+            to="/assistant"
+            className={navLink}
+          >
+            🤖 Assistant
+          </NavLink>
+
         </div>
 
         {/* Right Side */}
@@ -169,6 +176,13 @@ function Navbar() {
             className="block px-6 py-3"
           >
             Contact
+          </NavLink>
+
+          <NavLink
+            to="/assistant"
+            className="block px-6 py-3"
+          >
+            🤖 Assistant
           </NavLink>
 
           {!token ? (
