@@ -13,6 +13,7 @@ import AddCourse from "./pages/Admin/AddCourse";
 import ManageCourses from "./pages/Admin/ManageCourses";
 import MyLearning from "./pages/learning/MyLearning";
 import Quiz from "./pages/Learn/Quiz";
+import Notes from "./pages/Notes/Notes";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
@@ -117,6 +118,7 @@ function App() {
         }
       />
       <Route path="*" element={<NotFound />} />
+      <Route path="/notes" element={<Notes />} />
     </Routes>
   );
 }

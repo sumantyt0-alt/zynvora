@@ -12,6 +12,7 @@ import certificateRoutes from "./routes/certificateRoutes.js";
 import progressRoutes from "./routes/progressRoutes.js";
 import quizRoutes from "./routes/quizRoutes.js";
 import assistantRoutes from "./routes/assistantRoutes.js";
+import notesRoutes from "./routes/notesRoutes.js";
 dotenv.config();
 
 connectDB();
@@ -40,6 +41,7 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/certificates", certificateRoutes);
 app.use("/api/progress", progressRoutes);
+app.use("/api/notes", notesRoutes);
 app.get("/", (req, res) => {
   res.send("🚀 Zynvora Backend Running...");
 });
