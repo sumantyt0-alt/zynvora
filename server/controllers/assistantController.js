@@ -1,79 +1,66 @@
-import axios from "axios";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 
-export const chatAssistant = async (req,res)=>{
-
-    try{
-
-        const {message}=req.body;
-
-
-        if(!message){
-            return res.status(400).json({
-                success:false,
-                message:"Message required"
-            });
-        }
+const genAI =
+new GoogleGenerativeAI(
+ process.env.GEMINI_API_KEY
+);
 
 
+export const chatAssistant = async(req,res)=>{
 
-        const response = await axios.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            {
-                model:"google/gemini-2.0-flash-exp:free",
+try{
 
-                messages:[
-                    {
-                        role:"system",
-                        content:
-                        "You are Zynvora AI learning assistant. Help students with coding, courses, notes and education."
-                    },
-
-                    {
-                        role:"user",
-                        content:message
-                    }
-                ]
-            },
-            {
-                headers:{
-
-                    Authorization:
-                    `Bearer ${process.env.OPENROUTER_API_KEY}`,
-
-                    "Content-Type":
-                    "application/json"
-                }
-            }
-        );
+const {message}=req.body;
 
 
-        const reply =
-        response.data.choices[0].message.content;
+if(!message){
+return res.status(400).json({
+success:false,
+message:"Message required"
+});
+}
 
 
-        res.json({
 
-            success:true,
-            reply
-
-        });
-
-
-    }catch(error){
-
-        console.log(
-            error.response?.data || error.message
-        );
+const model =
+genAI.getGenerativeModel({
+model:"gemini-2.5-flash"
+});
 
 
-        res.status(500).json({
 
-            success:false,
-            message:"AI server error"
+const result =
+await model.generateContent(message);
 
-        });
 
-    }
+
+const reply =
+result.response.text();
+
+
+
+res.json({
+
+success:true,
+reply
+
+});
+
+
+
+}catch(error){
+
+console.log(error.message);
+
+
+res.status(500).json({
+
+success:false,
+message:"AI server error"
+
+});
+
+}
 
 };

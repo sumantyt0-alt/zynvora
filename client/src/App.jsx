@@ -18,6 +18,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import AdminRoute from "./components/AdminRoute";
 import Learn from "./pages/Learn/Learn";
+import Assistant from "./components/Assistant/Assistant";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           </PublicRoute>
         }
       />
+      <Route path="/assistant" element={<Assistant />} />
 
       {/* Protected */}
       <Route

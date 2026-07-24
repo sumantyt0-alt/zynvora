@@ -18,6 +18,7 @@
   "author": "Sumant Kumar",
   "license": "ISC",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "axios": "^1.18.1",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.10.0",
