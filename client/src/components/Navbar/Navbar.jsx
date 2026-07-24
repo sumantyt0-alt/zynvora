@@ -43,7 +43,7 @@ function Navbar() {
             to="/home"
             className={navLink}
           >
-            home
+            Home
           </NavLink>
 
           <NavLink
@@ -79,6 +79,12 @@ function Navbar() {
             className={navLink}
           >
             🤖 Assistant
+          </NavLink>
+
+          <NavLink to="/notes"
+          className={navLink}
+          >
+            📚AI Notes
           </NavLink>
 
         </div>
@@ -183,6 +189,13 @@ function Navbar() {
             className="block px-6 py-3"
           >
             🤖 Assistant
+          </NavLink>
+
+          <NavLink
+            to="/notes"
+            className="block px-6 py-3"
+          >
+            📚 AI Notes
           </NavLink>
 
           {!token ? (
