@@ -11,6 +11,7 @@ import paymentRoutes from "./routes/paymentRoutes.js";
 import certificateRoutes from "./routes/certificateRoutes.js";
 import progressRoutes from "./routes/progressRoutes.js";
 import quizRoutes from "./routes/quizRoutes.js";
+import assistantRoutes from "./routes/assistantRoutes.js";
 dotenv.config();
 
 connectDB();
@@ -33,6 +34,7 @@ app.use(express.json());
 // Routes AFTER middleware
 app.use("/api/auth", authRoutes);
 app.use("/api/courses", courseRoutes);
+app.use("/api/assistant",assistantRoutes);
 app.use("/api/enrollments", enrollmentRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/payment", paymentRoutes);

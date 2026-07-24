@@ -18,6 +18,7 @@
   "author": "Sumant Kumar",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.18.1",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.10.0",
     "cors": "^2.8.6",
