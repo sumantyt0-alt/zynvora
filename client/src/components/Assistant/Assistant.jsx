@@ -7,6 +7,7 @@ import {
   User,
   Minimize2,
 } from "lucide-react";
+import { askAssistant } from "../../services/assistantService";
 
 const Assistant = () => {
   const [open, setOpen] = useState(false);
@@ -34,44 +35,70 @@ const Assistant = () => {
     });
   }, [chat, typing]);
 
-  const sendMessage = () => {
-    if (!message.trim()) return;
+  const sendMessage = async()=>{
 
-    const userMessage = {
-      sender: "user",
-      text: message,
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    };
 
-    setChat((prev) => [...prev, userMessage]);
+if(!message.trim()) return;
 
-    const userText = message;
 
-    setMessage("");
+const userText = message;
 
-    setTyping(true);
 
-    setTimeout(() => {
-      setTyping(false);
+setChat(prev=>[
+...prev,
+{
+sender:"user",
+text:userText,
+time:"Now"
+}
+]);
 
-      setChat((prev) => [
-        ...prev,
-        {
-          sender: "ai",
-          text:
-            "🤖 Backend is not connected yet.\n\nYou asked:\n\n" +
-            userText,
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        },
-      ]);
-    }, 1500);
-  };
+
+setMessage("");
+
+setTyping(true);
+
+
+
+try{
+
+
+const reply = await askAssistant(userText);
+
+
+
+setChat(prev=>[
+...prev,
+{
+sender:"ai",
+text:reply,
+time:"Now"
+}
+]);
+
+
+}
+// eslint-disable-next-line no-unused-vars
+catch(error){
+
+
+setChat(prev=>[
+...prev,
+{
+sender:"ai",
+text:"❌ AI connection failed",
+time:"Now"
+}
+]);
+
+
+}
+
+
+setTyping(false);
+
+
+};
 
   return (
     <>
