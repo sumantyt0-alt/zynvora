@@ -22,13 +22,13 @@ function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b shadow-sm">
 
-      <div className="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
 
         {/* Logo */}
 
         <Link
           to="/home"
-          className="flex items-center gap-2 text-2xl font-bold text-blue-600"
+          className="flex items-center gap-2 text-xl sm:text-2xl font-bold text-blue-600"
         >
           <FaGraduationCap className="text-3xl" />
 
@@ -37,7 +37,7 @@ function Navbar() {
 
         {/* Desktop Menu */}
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-6 xl:gap-8">
 
           <NavLink
             to="/home"
@@ -98,7 +98,7 @@ function Navbar() {
 
         {/* Right Side */}
 
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-3">
 
           {token ? (
             <>
@@ -108,14 +108,14 @@ function Navbar() {
 
               <button
                 onClick={() => navigate("/dashboard")}
-                className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 whitespace-nowrap"
               >
                 Dashboard
               </button>
 
               <button
                 onClick={logout}
-                className="cursor-pointer bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+                className="cursor-pointer bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 whitespace-nowrap"
               >
                 Logout
               </button>
@@ -154,7 +154,7 @@ function Navbar() {
       {/* Mobile Menu */}
 
       {menuOpen && (
-        <div className="md:hidden bg-white border-t">
+        <div className="lg:hidden bg-white border-t shadow-lg">
 
           <NavLink
             to="/home"
@@ -202,14 +202,14 @@ function Navbar() {
             to="/quiz-generator"
             className="block px-6 py-3"
           >
-            📝 AI Quiz
+            📚AI Notes
           </NavLink>
 
           <NavLink
             to="/notes"
             className="block px-6 py-3"
           >
-            📚 AI Notes
+            🧠AI Quiz
           </NavLink>
 
           {!token ? (
