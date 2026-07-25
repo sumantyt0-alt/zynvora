@@ -14,6 +14,7 @@ import ManageCourses from "./pages/Admin/ManageCourses";
 import MyLearning from "./pages/learning/MyLearning";
 import Quiz from "./pages/Learn/Quiz";
 import Notes from "./pages/Notes/Notes";
+import QuizGenerator from "./pages/QuizGenerator/QuizGenerator";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
@@ -119,6 +120,7 @@ function App() {
       />
       <Route path="*" element={<NotFound />} />
       <Route path="/notes" element={<Notes />} />
+      <Route path="/quiz-generator" element={<QuizGenerator />} />
     </Routes>
   );
 }

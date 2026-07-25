@@ -81,6 +81,13 @@ function Navbar() {
             🤖 Assistant
           </NavLink>
 
+          <NavLink
+            to="/quiz-generator"
+            className={navLink}
+          >
+            📝 AI Quiz
+          </NavLink>
+
           <NavLink to="/notes"
           className={navLink}
           >
@@ -189,6 +196,13 @@ function Navbar() {
             className="block px-6 py-3"
           >
             🤖 Assistant
+          </NavLink>
+
+          <NavLink
+            to="/quiz-generator"
+            className="block px-6 py-3"
+          >
+            📝 AI Quiz
           </NavLink>
 
           <NavLink

@@ -1,4 +1,9 @@
 import Quiz from "../models/Quiz.js";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI(
+  process.env.GEMINI_API_KEY
+);
 
 
 // Get quiz by course
@@ -82,4 +87,76 @@ export const submitQuiz = async(req,res)=>{
 
     }
 
+};
+export const generateQuiz = async (req, res) => {
+  try {
+    const { topic,
+      difficulty,
+      questions, }
+       = req.body;
+
+    if (!topic) {
+      return res.status(400).json({
+        success: false,
+        message: "Topic is required",
+      });
+    }
+
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
+    });
+
+    const prompt = `
+    Generate ${questions} multiple choice questions on "${topic}".
+
+    Difficulty: ${difficulty}
+
+    Rules:
+
+    1. Return ONLY valid JSON.
+    2. Exactly 4 options.
+    3. One correct answer.
+    4. No explanation.
+    5. explanation should be one short sentence explaining why the answer is correct.
+
+    Format:
+
+    [
+      {
+        "question": "",
+        "options": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "answer": "",
+        "explanation":""
+      }
+    ]
+    `;
+
+    const result = await model.generateContent(prompt);
+
+    const text = result.response.text();
+
+    const quiz = JSON.parse(
+      text
+        .replace(/```json/g, "")
+        .replace(/```/g, "")
+        .trim()
+    );
+
+    res.json({
+      success: true,
+      quiz,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Quiz generation failed",
+    });
+  }
 };
