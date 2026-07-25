@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { generateQuiz } from "../../services/quizService";
-import {
-  Brain,
-  Sparkles,
-  CheckCircle,
-  XCircle,
-  RotateCcw,
-} from "lucide-react";
+import { Sparkles } from "lucide-react";
+import Timer from "../../components/Quiz/Timer";
+import ProgressBar from "../../components/Quiz/ProgressBar";
+import QuizHeader from "../../components/Quiz/QuizHeader";
+import QuestionCard from "../../components/Quiz/QuestionCard";
+import ResultCard from "../../components/Quiz/ResultCard";
 
 const QuizGenerator = () => {
   const [topic, setTopic] = useState("");
@@ -16,6 +15,7 @@ const QuizGenerator = () => {
   const [loading, setLoading] = useState(false);
   const [difficulty, setDifficulty] = useState("Medium");
   const [questionCount, setQuestionCount] = useState(10);
+  const [timeLeft, setTimeLeft] = useState(0);
 
   const handleGenerate = async () => {
     if (!topic.trim()) {
@@ -31,6 +31,7 @@ const QuizGenerator = () => {
       setQuiz(data);
       setAnswers({});
       setScore(null);
+      setTimeLeft(questionCount * 60);
     } catch (err) {
       console.error(err);
       alert("Unable to generate quiz");
@@ -46,50 +47,56 @@ const QuizGenerator = () => {
     }));
   };
 
-  const submitQuiz = () => {
-    let total = 0;
-
-    quiz.forEach((q, index) => {
-      if (answers[index] === q.answer) {
-        total++;
-      }
-    });
-
+  const submitQuiz = useCallback(() => {
+    const total = quiz.reduce((acc, q, index) => {
+      return answers[index] === q.answer ? acc + 1 : acc;
+    }, 0);
     setScore(total);
-  };
+  }, [quiz, answers]);
+    
+  useEffect(() => {
+    if (!quiz.length || score !== null) return;
 
+    if (timeLeft <= 0) {
+      const timerId = setTimeout(() => {
+        submitQuiz();
+      }, 0);
+
+      return () => clearTimeout(timerId);
+    }
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+
+  }, [timeLeft, quiz.length, score,  submitQuiz]);
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
   const resetQuiz = () => {
     setQuiz([]);
     setTopic("");
     setAnswers({});
     setScore(null);
+    setTimeLeft(0);
   };
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-6">
 
       <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl p-8">
+        <QuizHeader />
 
-        <div className="flex items-center gap-3 mb-8">
-
-          <Brain
-            size={40}
-            className="text-blue-600"
-          />
-
-          <div>
-
-            <h1 className="text-3xl font-bold">
-              AI Quiz Generator
-            </h1>
-
-            <p className="text-gray-500">
-              Generate MCQ quizzes using Gemini AI
-            </p>
-
+        {quiz.length > 0 && (
+          <div className="flex justify-end mb-6">
+            <Timer
+              minutes={minutes}
+              seconds={seconds}
+            />
           </div>
-
-        </div>
+        )}
 
         <div className="grid md:grid-cols-4 gap-4 mb-8">
 
@@ -169,113 +176,26 @@ const QuizGenerator = () => {
             : "Generate AI Quiz"}
         </button>
                 {quiz.length > 0 && (
-          <div className="space-y-8">
+                  <div className="space-y-8">
 
-            {quiz.map((q, index) => (
-              <div
-                key={index}
-                className="bg-gray-50 border rounded-2xl p-6"
-              >
-                <h2 className="text-lg font-semibold mb-5">
-                  Q{index + 1}. {q.question}
-                </h2>
+                    <ProgressBar
+                      current={Object.keys(answers).length}
+                      total={quiz.length}
+                    />
 
-                <div className="grid gap-3">
+                    {quiz.map((q, index) => (
+                      <QuestionCard
+                        key={index}
+                        q={q}
+                        index={index}
+                        answers={answers}
+                        selectAnswer={selectAnswer}
+                        score={score}
+                      />
+                    ))}
 
-                  {q.options.map((option, i) => {
 
-                    const selected =
-                      answers[index] === option;
-
-                    let className =
-                      "border rounded-xl px-4 py-3 cursor-pointer transition";
-
-                    if (score !== null) {
-
-                      if (option === q.answer) {
-                        className +=
-                          " bg-green-100 border-green-500";
-                      } else if (selected) {
-                        className +=
-                          " bg-red-100 border-red-500";
-                      }
-
-                    } else {
-
-                      if (selected) {
-                        className +=
-                          " bg-blue-100 border-blue-500";
-                      }
-
-                    }
-
-                    return (
-                      <div
-                        key={i}
-                        onClick={() =>
-                          score === null &&
-                          selectAnswer(index, option)
-                        }
-                        className={className}
-                      >
-                        {option}
-                      </div>
-                    );
-
-                  })}
-
-                </div>
-
-                {score !== null && (
-                  <div className="mt-4">
-
-                    {answers[index] === q.answer ? (
-                      <div className="flex items-center gap-2 text-green-600 font-semibold">
-                        <CheckCircle size={20} />
-                        Correct
-                      </div>
-                    ) : (
-                      <>
-                        <div className="flex items-center gap-2 text-red-600 font-semibold">
-                          <XCircle size={20} />
-                          Wrong
-                        </div>
-
-                        <div className="mt-4 rounded-xl border border-red-300 bg-red-50 p-4">
-
-                          <p className="font-semibold text-red-600">
-                            ❌ Your Answer
-                          </p>
-
-                          <p>{answers[index]}</p>
-
-                          <p className="mt-3 font-semibold text-green-700">
-                            ✅ Correct Answer
-                          </p>
-
-                          <p>{q.answer}</p>
-
-                          <div className="mt-4 rounded-lg bg-blue-50 p-4">
-                            <p className="font-semibold text-blue-700">
-                              💡 Explanation
-                            </p>
-
-                            <p className="text-gray-700">
-                              {q.explanation}
-                            </p>
-                          </div>
-
-                        </div>
-                      </>
-                    )}
-
-                  </div>
-                )}
-
-              </div>
-            ))}
-
-            {score === null ? (
+                    {score === null ? (
 
               <button
                 onClick={submitQuiz}
@@ -294,37 +214,11 @@ const QuizGenerator = () => {
               </button>
 
             ) : (
-
-              <div className="bg-blue-50 border rounded-2xl p-8 text-center">
-
-                <h2 className="text-3xl font-bold text-blue-700">
-                  Your Score
-                </h2>
-
-                <p className="text-5xl font-extrabold mt-5">
-                  {score} / {quiz.length}
-                </p>
-
-                <button
-                  onClick={resetQuiz}
-                  className="
-                  mt-8
-                  bg-blue-600
-                  hover:bg-blue-700
-                  text-white
-                  px-6
-                  py-3
-                  rounded-xl
-                  inline-flex
-                  items-center
-                  gap-2
-                  "
-                >
-                  <RotateCcw size={18} />
-                  Generate New Quiz
-                </button>
-
-              </div>
+              <ResultCard
+                score={score}
+                total={quiz.length}
+                resetQuiz={resetQuiz}
+              />
 
             )}
 
