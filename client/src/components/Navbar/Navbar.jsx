@@ -202,14 +202,14 @@ function Navbar() {
             to="/quiz-generator"
             className="block px-6 py-3"
           >
-            📚AI Notes
+            🧠AI Quiz
           </NavLink>
 
           <NavLink
             to="/notes"
             className="block px-6 py-3"
           >
-            🧠AI Quiz
+            📚AI Notes
           </NavLink>
 
           {!token ? (
