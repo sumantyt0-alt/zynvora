@@ -1,5 +1,5 @@
 const ProgressBar = ({ current, total }) => {
-  const progress = (current / total) * 100;
+  const progress = total > 0 ? (current / total) * 100 : 0;
 
   return (
     <div className="mb-6">
