@@ -14,25 +14,21 @@ export const askAI = async (message) => {
   try {
 
     const completion = await client.chat.completions.create({
-
       model: "grok-3-mini",
-
       messages: [
         {
           role: "user",
           content: message,
         },
       ],
-
     });
-
 
     return completion.choices[0].message.content;
 
-
   } catch (error) {
 
-    console.log("Grok Error:", error.message);
+    console.log("Grok Full Error:", error);
+
     throw error;
 
   }
