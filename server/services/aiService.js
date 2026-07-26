@@ -1,28 +1,39 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-console.log("🔥 USING GEMINI 2.0 FLASH SERVICE");
+import OpenAI from "openai";
+
 console.log(
-  "Gemini Key:",
-  process.env.GEMINI_API_KEY
-    ? process.env.GEMINI_API_KEY.substring(0, 10)
-    : "MISSING"
+  "Grok Key Loaded:",
+  process.env.XAI_API_KEY ? "YES" : "NO"
 );
 
-const genAI = new GoogleGenerativeAI(
-  process.env.GEMINI_API_KEY
-);
+const client = new OpenAI({
+  apiKey: process.env.XAI_API_KEY,
+  baseURL: "https://api.x.ai/v1",
+});
 
 export const askAI = async (message) => {
   try {
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
+
+    const completion = await client.chat.completions.create({
+
+      model: "grok-3-mini",
+
+      messages: [
+        {
+          role: "user",
+          content: message,
+        },
+      ],
+
     });
 
-    const result = await model.generateContent(message);
 
-    return result.response.text();
+    return completion.choices[0].message.content;
+
 
   } catch (error) {
-    console.log("Gemini Error:", error.message);
+
+    console.log("Grok Error:", error.message);
     throw error;
+
   }
 };

@@ -1,12 +1,10 @@
 import Quiz from "../models/Quiz.js";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const genAI = new GoogleGenerativeAI(
-  process.env.GEMINI_API_KEY
-);
+import { askAI } from "../services/aiService.js";
 
 
+// ==========================
 // Get quiz by course
+// ==========================
 
 export const getQuiz = async (req,res)=>{
 
@@ -40,7 +38,9 @@ export const getQuiz = async (req,res)=>{
 
 
 
+// ==========================
 // Submit Quiz
+// ==========================
 
 export const submitQuiz = async(req,res)=>{
 
@@ -68,7 +68,6 @@ export const submitQuiz = async(req,res)=>{
         (score / quiz.questions.length)*100;
 
 
-
         res.json({
 
             score,
@@ -88,75 +87,99 @@ export const submitQuiz = async(req,res)=>{
     }
 
 };
-export const generateQuiz = async (req, res) => {
-  try {
-    const { topic,
-      difficulty,
-      questions, }
-       = req.body;
 
-    if (!topic) {
+
+
+// ==========================
+// Generate AI Quiz
+// ==========================
+
+export const generateQuiz = async (req,res)=>{
+
+  try{
+
+    const {
+      topic,
+      difficulty,
+      questions
+    } = req.body;
+
+
+    if(!topic){
+
       return res.status(400).json({
-        success: false,
-        message: "Topic is required",
+        success:false,
+        message:"Topic is required",
       });
+
     }
 
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
-    });
 
     const prompt = `
-    Generate ${questions} multiple choice questions on "${topic}".
 
-    Difficulty: ${difficulty}
+Generate ${questions} multiple choice questions on "${topic}".
 
-    Rules:
+Difficulty: ${difficulty}
 
-    1. Return ONLY valid JSON.
-    2. Exactly 4 options.
-    3. One correct answer.
-    4. No explanation.
-    5. explanation should be one short sentence explaining why the answer is correct.
+Rules:
 
-    Format:
+1. Return ONLY valid JSON.
+2. Exactly 4 options.
+3. One correct answer.
+4. No markdown.
+5. Include a short explanation.
 
-    [
-      {
-        "question": "",
-        "options": [
-          "",
-          "",
-          "",
-          ""
-        ],
-        "answer": "",
-        "explanation":""
-      }
-    ]
-    `;
+Format:
 
-    const result = await model.generateContent(prompt);
+[
+ {
+   "question":"",
+   "options":[
+      "",
+      "",
+      "",
+      ""
+   ],
+   "answer":"",
+   "explanation":""
+ }
+]
 
-    const text = result.response.text();
+`;
+
+
+
+    const text = await askAI(prompt);
+
 
     const quiz = JSON.parse(
       text
-        .replace(/```json/g, "")
-        .replace(/```/g, "")
-        .trim()
+      .replace(/```json/g,"")
+      .replace(/```/g,"")
+      .trim()
     );
 
+
     res.json({
-      success: true,
-      quiz,
+
+      success:true,
+      quiz
+
     });
-  } catch (error) {
-    console.log(error);
+
+
+  }catch(error){
+
+    console.log("Quiz Error:",error.message);
+
 
     res.status(500).json({
-      success: false,
-      message: "Quiz generation failed",
+
+      success:false,
+      message:"Quiz generation failed"
+
     });
+
   }
+
 };

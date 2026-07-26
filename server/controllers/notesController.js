@@ -1,6 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+import { askAI } from "../services/aiService.js";
 
 // ==========================
 // Generate AI Notes
@@ -15,10 +13,6 @@ export const generateNotes = async (req, res) => {
         message: "Topic is required",
       });
     }
-
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
-    });
 
     const prompt = `
 You are an expert teacher.
@@ -39,9 +33,7 @@ Instructions:
 Output should look like professional notes.
 `;
 
-    const result = await model.generateContent(prompt);
-
-    const notes = result.response.text();
+    const notes = await askAI(prompt);
 
     return res.json({
       success: true,
@@ -49,7 +41,7 @@ Output should look like professional notes.
     });
 
   } catch (error) {
-    console.error("Notes Error:", error);
+    console.error("Notes Error:", error.message);
 
     return res.status(500).json({
       success: false,

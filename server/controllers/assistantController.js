@@ -1,66 +1,50 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { askAI } from "../services/aiService.js";
 
 
-const genAI =
-new GoogleGenerativeAI(
- process.env.GEMINI_API_KEY
-);
+// ==========================
+// AI Assistant Chat
+// ==========================
+
+export const chatAssistant = async (req, res) => {
+
+  try {
+
+    const { message } = req.body;
 
 
-export const chatAssistant = async(req,res)=>{
+    if (!message || !message.trim()) {
 
-try{
+      return res.status(400).json({
+        success: false,
+        message: "Message required"
+      });
 
-const {message}=req.body;
-
-
-if(!message){
-return res.status(400).json({
-success:false,
-message:"Message required"
-});
-}
+    }
 
 
-
-const model =
-genAI.getGenerativeModel({
-model:"gemini-2.0-flash"
-});
+    const reply = await askAI(message);
 
 
+    res.json({
 
-const result =
-await model.generateContent(message);
+      success: true,
+      reply
 
-
-
-const reply =
-result.response.text();
+    });
 
 
+  } catch (error) {
 
-res.json({
-
-success:true,
-reply
-
-});
+    console.log("Assistant Error:", error.message);
 
 
+    res.status(500).json({
 
-}catch(error){
+      success: false,
+      message: "AI server error"
 
-console.log(error.message);
+    });
 
-
-res.status(500).json({
-
-success:false,
-message:"AI server error"
-
-});
-
-}
+  }
 
 };
