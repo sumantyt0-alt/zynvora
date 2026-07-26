@@ -1,6 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import connectDB from "./config/database.js";
 
 import authRoutes from "./routes/authRoutes.js";
@@ -14,7 +16,7 @@ import quizRoutes from "./routes/quizRoutes.js";
 import assistantRoutes from "./routes/assistantRoutes.js";
 import notesRoutes from "./routes/notesRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
-dotenv.config();
+
 
 connectDB();
 
@@ -26,6 +28,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://zynvora-seven.vercel.app",
+      "http://192.168.1.5:5173"
     ],
     credentials: true,
   })
