@@ -13,6 +13,7 @@ import progressRoutes from "./routes/progressRoutes.js";
 import quizRoutes from "./routes/quizRoutes.js";
 import assistantRoutes from "./routes/assistantRoutes.js";
 import notesRoutes from "./routes/notesRoutes.js";
+import aiRoutes from "./routes/aiRoutes.js";
 dotenv.config();
 
 connectDB();
@@ -34,6 +35,7 @@ app.use(express.json());
 
 // Routes AFTER middleware
 app.use("/api/auth", authRoutes);
+app.use("/api/ai", aiRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/assistant",assistantRoutes);
 app.use("/api/enrollments", enrollmentRoutes);
