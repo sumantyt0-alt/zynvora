@@ -1,5 +1,9 @@
 import dotenv from "dotenv";
 dotenv.config();
+console.log(
+  "Groq Key Loaded:",
+  process.env.GROQ_API_KEY ? "YES" : "NO"
+);
 
 import express from "express";
 import cors from "cors";
