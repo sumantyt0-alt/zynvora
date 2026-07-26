@@ -17,31 +17,32 @@ export const generateNotes = async (req, res) => {
     const prompt = `
 You are an expert teacher.
 
-Create detailed study notes on:
+Create professional and detailed study notes on the topic:
 
-${topic}
+"${topic}"
 
 Instructions:
+- Use clear headings.
+- Use bullet points.
+- Explain concepts in simple English.
+- Include real-life examples wherever possible.
+- Mention important interview questions at the end.
+- End with a short summary.
+- Return plain text only.
+- Do not use markdown code blocks.
 
-- Use proper headings
-- Use bullet points
-- Explain in simple English
-- Give examples
-- Mention important interview questions
-- End with a short summary
-
-Output should look like professional notes.
+Generate complete notes now.
 `;
 
     const notes = await askAI(prompt);
 
-    return res.json({
+    return res.status(200).json({
       success: true,
       notes,
     });
 
   } catch (error) {
-    console.error("Notes Error:", error.message);
+    console.error("Notes Error:", error);
 
     return res.status(500).json({
       success: false,
