@@ -1,25 +1,13 @@
 import axios from "axios";
 
-
 const API = axios.create({
-
-    baseURL:
-    "http://localhost:5000/api"
-
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
+export const askAssistant = async (message) => {
+  const res = await API.post("/assistant/chat", {
+    message,
+  });
 
-
-export const askAssistant = async(message)=>{
-
-    const res = await API.post(
-        "/assistant/chat",
-        {
-            message
-        }
-    );
-
-
-    return res.data.reply;
-
+  return res.data.reply;
 };
