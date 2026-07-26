@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-
+console.log("🔥 USING GEMINI 2.0 FLASH SERVICE");
 console.log(
   "Gemini Key:",
   process.env.GEMINI_API_KEY
