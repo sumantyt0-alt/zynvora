@@ -1,17 +1,38 @@
 import express from "express";
 
 import {
-    chatAssistant
-}
-from "../controllers/assistantController.js";
+  chatAssistant,
+  getChatHistory,
+  getSingleChat
+} from "../controllers/assistantController.js";
+
+import protect from "../middleware/authMiddleware.js";
 
 
 const router = express.Router();
 
 
+// Send message to AI
 router.post(
-    "/chat",
-    chatAssistant
+  "/chat",
+  protect,
+  chatAssistant
+);
+
+
+// Left sidebar chat history
+router.get(
+  "/history",
+  protect,
+  getChatHistory
+);
+
+
+// Open previous chat
+router.get(
+  "/chat/:id",
+  protect,
+  getSingleChat
 );
 
 
