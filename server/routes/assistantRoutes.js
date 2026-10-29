@@ -2,6 +2,7 @@ import express from "express";
 
 import {
   chatAssistant,
+  chatAssistantStream,
   getChatHistory,
   getSingleChat
 } from "../controllers/assistantController.js";
@@ -35,5 +36,6 @@ router.get(
   getSingleChat
 );
 
+router.post("/chat/stream", protect, chatAssistantStream);
 
 export default router;
