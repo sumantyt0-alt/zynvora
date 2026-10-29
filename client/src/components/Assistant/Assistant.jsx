@@ -156,4 +156,56 @@ const Assistant = () => {
                       )}
 
                       <span className="text-xs opacity-70">
-                        {msg.sender === "user" ? "You" :
+                        {msg.sender === "user" ? "You" : "Zynvora AI"}
+                      </span>
+                    </div>
+
+                    <p className="text-sm">{msg.text}</p>
+
+                    <p className="text-[10px] mt-2 opacity-60 text-right">
+                      {msg.time}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+
+            {typing && (
+              <div className="flex justify-start">
+                <div className="bg-white rounded-2xl px-4 py-3 shadow text-sm text-gray-500">
+                  🤖 Typing...
+                </div>
+              </div>
+            )}
+
+            <div ref={messagesEndRef}></div>
+          </div>
+
+          {/* Input */}
+          <div className="border-t bg-white p-4 flex gap-3">
+            <input
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") sendMessage();
+              }}
+              placeholder="Ask anything..."
+              className="flex-1 border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+            />
+
+            <button
+              onClick={sendMessage}
+              disabled={sending}
+              className="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Send size={20} />
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default Assistant;
