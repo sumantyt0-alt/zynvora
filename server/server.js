@@ -31,6 +31,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
+      "http://localhost:4173",
       "https://zynvora-seven.vercel.app",
       "http://192.168.1.5:5173"
     ],
